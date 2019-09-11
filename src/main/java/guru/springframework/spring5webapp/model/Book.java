@@ -1,35 +1,27 @@
 package guru.springframework.spring5webapp.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Book {
+public class Book implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "title")
+    @Column
     private String title;
 
-    @Column(name = "isbn")
+    @Column
     private String isbn;
 
     @OneToOne
     private Publisher publisher;
 
-    @ManyToMany
-    @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
+    @ManyToMany(mappedBy = "books")
     private Set<Author> authors = new HashSet<>();
 
     public Book() {
